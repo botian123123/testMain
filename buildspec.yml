@@ -29,6 +29,7 @@ phases:
       - echo Build main
       - cd $CODEBUILD_SRC_DIR/demo
       - aws s3 cp "s3://$S3_BUCKET/*" . --recursive
+      - ls
       - mvn package
       - cd ..
       - encho start docker
