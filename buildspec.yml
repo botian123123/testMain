@@ -1,0 +1,51 @@
+version: 0.2
+
+env:
+  variables:
+    S3_BUCKET: 'cicd-test-submodle'
+    S3_PREFIX: 'submodels'
+    JAR_DEPENDENCIES:
+      - $S3_PREFIX/cicdtest-0.0.1-SNAPSHOT.jar
+      - $S3_PREFIX/sub2-0.0.1-SNAPSHOT.jar
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin 186127023843.dkr.ecr.us-east-2.amazonaws.com
+      - REPOSITORY_URI=186127023843.dkr.ecr.us-east-2.amazonaws.com/cicd-test
+  build:
+    commands:
+      - echo Build started on `date`
+      # path of pom file
+      - echo Build subMod_1
+      - cd $CODEBUILD_SRC_DIR_submod1/cicdtest
+      - mvn install
+      - echo move .jar to s3
+      - echo Build subMod_2
+      - aws s3 sync ./target/ s3://$S3_BUCKET/$S3_PREFIX/ --exclude '*' --include '*.jar'
+      - cd $CODEBUILD_SRC_DIR_submod2/sub2
+      - mvn install
+      - echo move sub .jar to s3
+      - aws s3 sync ./target/ s3://$S3_BUCKET/$S3_PREFIX/ --exclude '*' --include '*.jar'
+      - echo Build main
+      - cd $CODEBUILD_SRC_DIR/demo
+      - |
+        for JAR_PATH in "${JAR_DEPENDENCIES[@]}"
+        do
+          aws s3 cp "s3://$S3_BUCKET/$JAR_PATH" .
+        done
+      - encho start docker
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:latest
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - docker push $REPOSITORY_URI:latest
+      - echo Writing image definitions file...
+      - printf '{"ImageURI":"$REPOSITORY_URI:latest:latest"}' > imageDetail.json
+artifacts:
+  files:
+    - imageDetail.json
+    - taskdef.json
+    - appspec.yaml
