@@ -4,7 +4,6 @@ env:
   variables:
     S3_BUCKET: 'cicd-test-submodle'
     S3_PREFIX: 'submodels'
-    MVN_PATH: '/root/.m2/repository'
 phases:
   pre_build:
     commands:
@@ -16,10 +15,14 @@ phases:
     commands:
       - echo Build started on `date`
       # path of pom file
+      - echo Build subMod_1
+      - cd $CODEBUILD_SRC_DIR_submod1/cicdtest
+      - mvn install
+      - echo Build subMod_2
+      - cd $CODEBUILD_SRC_DIR_submod2/sub2
+      - mvn install
       - echo Build main
-      - cd ./demo
-      - aws s3 cp "s3://$S3_BUCKET/submodels/cicdtest-0.0.1-SNAPSHOT.jar" "$MVN_PATH/com/example/cicdtest/0.0.1-SNAPSHOT/"
-      - aws s3 cp "s3://$S3_BUCKET/submodels/sub2-0.0.1-SNAPSHOT.jar" "$MVN_PATH/com/example/sub2/0.0.1-SNAPSHOT/"
+      - cd $CODEBUILD_SRC_DIR/demo
       - mvn package
       - cd ..
       - encho start docker
