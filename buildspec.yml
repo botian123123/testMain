@@ -16,20 +16,10 @@ phases:
     commands:
       - echo Build started on `date`
       # path of pom file
-      - echo Build subMod_1
-      - cd $CODEBUILD_SRC_DIR_submod1/cicdtest
-      - mvn package
-      - echo move .jar to s3
-      - echo Build subMod_2
-      - aws s3 sync ./target/ s3://$S3_BUCKET/$S3_PREFIX/ --exclude '*' --include '*.jar'
-      - cd $CODEBUILD_SRC_DIR_submod2/sub2
-      - mvn package
-      - echo move sub .jar to s3
-      - aws s3 sync ./target/ s3://$S3_BUCKET/$S3_PREFIX/ --exclude '*' --include '*.jar'
       - echo Build main
-      - cd $CODEBUILD_SRC_DIR/demo
-      - aws s3 cp "s3://$S3_BUCKET/*" . --recursive
-      - ls
+      - cd ./demo
+      - aws s3 cp "s3://$S3_BUCKET/submodels/cicdtest-0.0.1-SNAPSHOT.jar" "/root/.m2/com/example/"
+      - aws s3 cp "s3://$S3_BUCKET/submodels/sub2-0.0.1-SNAPSHOT.jar" "/root/.m2/com/example/"
       - mvn package
       - cd ..
       - encho start docker
