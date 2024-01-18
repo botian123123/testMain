@@ -8,8 +8,10 @@ import org.springframework.context.annotation.Bean;
 
 import com.example.cicdtest.model.Model;
 
+import lombok.extern.slf4j.Slf4j;
 import main.java.com.example.sub2.Modle2;
 
+@Slf4j
 @SpringBootApplication
 public class DemoApplication {
 
@@ -19,6 +21,7 @@ public class DemoApplication {
 	Modle2 car;
 
 	public static void main(String[] args) {
+		log.info("this is log!!!!!");
 		SpringApplication.run(DemoApplication.class, args);
 	}
 

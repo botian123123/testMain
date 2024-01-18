@@ -9,6 +9,7 @@ import main.java.com.example.sub2.Modle2;
 
 @Configuration
 public class appConfig {
+
     @Bean
     public Model getPerson() {
         return new Model();
