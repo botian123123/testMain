@@ -30,8 +30,3 @@ phases:
       - docker push $REPOSITORY_URI:latest
       - echo Writing image definitions file...
       - printf '{"ImageURI":"$REPOSITORY_URI:latest:latest"}' > imageDetail.json
-artifacts:
-  files:
-    - imageDetail.json
-    - taskdef.json
-    - appspec.yaml
