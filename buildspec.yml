@@ -1,9 +1,5 @@
 version: 0.2
 
-env:
-  variables:
-    S3_BUCKET: 'cicd-test-submodle'
-    S3_PREFIX: 'submodels'
 phases:
   pre_build:
     commands:
@@ -25,7 +21,7 @@ phases:
       - cd $CODEBUILD_SRC_DIR/demo
       - mvn package
       - cd ..
-      - encho start docker
+      - echo start docker
       - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:latest
   post_build:
