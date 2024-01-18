@@ -8,10 +8,9 @@ import org.springframework.context.annotation.Bean;
 
 import com.example.cicdtest.model.Model;
 
-import lombok.extern.slf4j.Slf4j;
 import main.java.com.example.sub2.Modle2;
 
-@Slf4j
+
 @SpringBootApplication
 public class DemoApplication {
 
@@ -29,7 +28,7 @@ public class DemoApplication {
 		return args -> {
 			person.speak();
 			System.out.println(" driving " + car.getName() + " " + car.getType());
-			log.info("this is log!!!");
+
 		};
 	}
 }
