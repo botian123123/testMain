@@ -21,7 +21,6 @@ public class DemoApplication {
 	Modle2 car;
 
 	public static void main(String[] args) {
-		log.info("this is log!!!!!");
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
@@ -30,6 +29,7 @@ public class DemoApplication {
 		return args -> {
 			person.speak();
 			System.out.println(" driving " + car.getName() + " " + car.getType());
+			log.info("this is log!!!");
 		};
 	}
 }
