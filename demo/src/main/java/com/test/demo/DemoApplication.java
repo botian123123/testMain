@@ -7,8 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import com.example.cicdtest.model.Model;
-
-import main.java.com.example.sub2.Modle2;
+import com.example.sub2.Modle2;
 
 
 @SpringBootApplication

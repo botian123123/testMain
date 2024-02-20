@@ -1,0 +1,32 @@
+name: Maven Package
+
+on:
+  push: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: setup java env.
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Checkout main repo
+        uses: actions/checkout@v4
+        with:
+          path: path_to_main
+      - name: Checkout sub1
+        uses: actions/checkout@v4
+        with:
+          repository: botian123123/testSub1.git
+          path: path_to_sub1
+      # - name: Checkout HostInterface
+      #   use: actions/checkout@v3
+      #   with:
+      #     repository: git@github.com:PAXTechnologyInc/Bridgepay_Processor_cert.git
+      #     ref: cicd-test
+
+
+

@@ -4,8 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.example.cicdtest.model.Model;
-
-import main.java.com.example.sub2.Modle2;
+import com.example.sub2.Modle2;
 
 @Configuration
 public class appConfig {
