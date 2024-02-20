@@ -14,7 +14,16 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Checkout sub1
+      - name: Build sub2
+        use: actions/checkout@v4
+        with:
+          repository: botian123123/testSub2.git
+          ref: main
+          path: path_to_sub2
+      - run: |
+        cd path_to_sub2
+        mvn install -DskipTests
+      - name: Build sub1
         uses: actions/checkout@v4
         with:
           repository: botian123123/testSub1.git
