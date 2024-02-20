@@ -38,10 +38,13 @@ jobs:
           path: path_to_main
       - name: build main .jar
         run: |
-          cd demo
+          cd path_to_main/demo
           mvn install -DskipTests
           mkdir ${{ github.workspace }}/handler
-          
+          cd target
+          mv handler* ${{ github.workspace }}/handler/
+          cd ${{ github.workspace }}/handler/
+          ls
 
 
 
