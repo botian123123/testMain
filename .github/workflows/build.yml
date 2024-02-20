@@ -37,7 +37,11 @@ jobs:
         with:
           path: path_to_main
       - name: build main .jar
-        run: mvn install -DskipTests
+        run: |
+          cd demo
+          mvn install -DskipTests
+          mkdir ${{ github.workspace }}/handler
+          
 
 
 
