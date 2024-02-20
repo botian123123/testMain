@@ -21,8 +21,8 @@ jobs:
           ref: main
           path: path_to_sub2
       - run: |
-        cd path_to_sub2
-        mvn install -DskipTests
+          cd path_to_sub2
+          mvn install -DskipTests
       - name: Build sub1
         uses: actions/checkout@v4
         with:
