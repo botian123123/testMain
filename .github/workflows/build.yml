@@ -20,9 +20,9 @@ jobs:
           repository: botian123123/testSub1.git
           ref: main
           path: path_to_sub1
-      - run: cd path_to_sub1/cicdtest
-      - name: build sub module
-        run: mvn install -DskipTests
+      - run: |
+          cd path_to_sub1/cicdtest
+          mvn install -DskipTests
       - name: Checkout main repo
         uses: actions/checkout@v4
         with:
