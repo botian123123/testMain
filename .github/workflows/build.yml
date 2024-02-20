@@ -14,21 +14,21 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Checkout main repo
-        uses: actions/checkout@v4
-        with:
-          path: path_to_main
       - name: Checkout sub1
         uses: actions/checkout@v4
         with:
           repository: botian123123/testSub1.git
           ref: main
           path: path_to_sub1
-      # - name: Checkout HostInterface
-      #   use: actions/checkout@v3
-      #   with:
-      #     repository: git@github.com:PAXTechnologyInc/Bridgepay_Processor_cert.git
-      #     ref: cicd-test
+      - run: cd path_to_sub1
+      - name: build sub module
+        run: mvn install -DskipTests
+      - name: Checkout main repo
+        uses: actions/checkout@v4
+        with:
+          path: path_to_main
+      - name: build main .jar
+        run: mvn install -DskipTests
 
 
 
