@@ -15,7 +15,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Build sub2
-        use: actions/checkout@v4
+        uses: actions/checkout@v4
         with:
           repository: botian123123/testSub2.git
           ref: main
