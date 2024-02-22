@@ -16,22 +16,14 @@ jobs:
       with:
         script: |
           try {
-            const { data: workflows } = await github.actions.listRepoWorkflows({
+            await github.actions.createWorkflowDispatch({
               owner: 'botian123123',
-              repo: 'testMain'
+              repo: 'testMain',
+              workflow_id: 'build.yml',
+              ref: 'main',
             });
-            
-            const mainWorkflow = workflows.workflows.find(workflow => workflow.name === 'build.yml');
-            
-            if (mainWorkflow) {
-              await github.actions.reRunWorkflow({
-                owner: 'botian123123',
-                repo: 'testMain',
-                workflow_id: mainWorkflow.id
-              });
-            } else {
-              console.log('Main workflow not found.');
-            }
+            console.log('Build workflow triggered successfully.');
           } catch (error) {
             console.error('Error:', error);
+            throw error;
           }
