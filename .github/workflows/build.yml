@@ -1,8 +1,9 @@
 name: Maven Package
 
 on:
-  push: ['main']
-  
+  push:
+    branch: main
+
 jobs:
   build:
     runs-on: ubuntu-latest
