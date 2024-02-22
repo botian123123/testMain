@@ -16,21 +16,25 @@ jobs:
       uses: actions/github-script@v5
       with:
         script: |
-          const { data: workflows } = await github.actions.listRepoWorkflows({
-            owner: 'botian123123',
-            repo: 'testMain'
-          });
-          
-          const mainWorkflow = workflows.workflows.find(workflow => workflow.name === 'Name of your Main workflow');
-          
-          if (mainWorkflow) {
-            await github.actions.reRunWorkflow({
+          try {
+            const { data: workflows } = await github.actions.listRepoWorkflows({
               owner: 'botian123123',
-              repo: 'testMain',
-              workflow_id: mainWorkflow.id
+              repo: 'testMain'
             });
-          } else {
-            console.log('Main workflow not found.');
+            
+            const mainWorkflow = workflows.workflows.find(workflow => workflow.name === 'build.yml');
+            
+            if (mainWorkflow) {
+              await github.actions.reRunWorkflow({
+                owner: 'botian123123',
+                repo: 'testMain',
+                workflow_id: mainWorkflow.id
+              });
+            } else {
+              console.log('Main workflow not found.');
+            }
+          } catch (error) {
+            console.error('Error:', error);
           }
 
   build:
