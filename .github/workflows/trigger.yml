@@ -1,0 +1,37 @@
+name: Trigger workflow by other repo
+
+on:
+  push:
+    branches:
+      - 'testSub1/main' #repo and branch for submodule
+      - 'testSub2/main' #repo and branch for submodule
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Trigger Main Workflow
+      uses: actions/github-script@v5
+      with:
+        script: |
+          try {
+            const { data: workflows } = await github.actions.listRepoWorkflows({
+              owner: 'botian123123',
+              repo: 'testMain'
+            });
+            
+            const mainWorkflow = workflows.workflows.find(workflow => workflow.name === 'build.yml');
+            
+            if (mainWorkflow) {
+              await github.actions.reRunWorkflow({
+                owner: 'botian123123',
+                repo: 'testMain',
+                workflow_id: mainWorkflow.id
+              });
+            } else {
+              console.log('Main workflow not found.');
+            }
+          } catch (error) {
+            console.error('Error:', error);
+          }
