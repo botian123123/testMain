@@ -2,11 +2,41 @@ name: Maven Package
 
 on:
   push:
-    branch: ["main"]
+    branches:
+      - main #branch for this repo
+      - 'testSub1/main' #repo and branch for submodule
+      - 'testSub2/main' #repo and branch for submodule
 
 jobs:
+  trigger:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Trigger Main Workflow
+      uses: actions/github-script@v5
+      with:
+        script: |
+          const { data: workflows } = await github.actions.listRepoWorkflows({
+            owner: 'botian123123',
+            repo: 'testMain'
+          });
+          
+          const mainWorkflow = workflows.workflows.find(workflow => workflow.name === 'Name of your Main workflow');
+          
+          if (mainWorkflow) {
+            await github.actions.reRunWorkflow({
+              owner: 'botian123123',
+              repo: 'testMain',
+              workflow_id: mainWorkflow.id
+            });
+          } else {
+            console.log('Main workflow not found.');
+          }
+
   build:
     runs-on: ubuntu-latest
+
+    needs: trigger
 
     steps:
       - name: setup java env.
@@ -39,7 +69,7 @@ jobs:
       - name: build main .jar
         run: |
           cd path_to_main/demo
-          mvn install -DskipTests
+          mvn install
           mkdir ${{ github.workspace }}/handler
           cd target
           mv handler* ${{ github.workspace }}/handler/
