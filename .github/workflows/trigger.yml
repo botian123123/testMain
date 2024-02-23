@@ -13,7 +13,7 @@ jobs:
       with:
         script: |
           try {
-            await github.actions.createWorkflowDispatch({
+            await github.rest.actions.createWorkflowDispatch({
               owner: 'botian123123',
               repo: 'testShell',
               workflow_id: 'build.yml',
