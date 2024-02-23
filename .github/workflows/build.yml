@@ -1,0 +1,52 @@
+name: Maven Package
+
+on:
+  push:
+    branches-ignore: main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: setup java env.
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Build sub2
+        uses: actions/checkout@v4
+        with:
+          repository: botian123123/testSub2.git
+          ref: main
+          path: path_to_sub2
+      - run: |
+          cd path_to_sub2/sub2
+          mvn install -DskipTests
+      - name: Build sub1
+        uses: actions/checkout@v4
+        with:
+          repository: botian123123/testSub1.git
+          ref: main
+          path: path_to_sub1
+      - run: |
+          cd path_to_sub1/cicdtest
+          mvn install -DskipTests
+      - name: Checkout main repo
+        uses: actions/checkout@v4
+        with:
+          repository: botian123123/testMain.git
+          ref: main
+          path: path_to_main
+      - name: build main .jar
+        run: |
+          cd path_to_main/demo
+          mvn install
+          mkdir ${{ github.workspace }}/handler
+          cd target
+          mv handler* ${{ github.workspace }}/handler/
+          cd ${{ github.workspace }}/handler/
+          ls
+
+
+
